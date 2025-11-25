@@ -32,6 +32,14 @@ class ProductController extends Controller
     }
 
     /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
+    {
+        return Product::findOrFail($id);
+    }
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
