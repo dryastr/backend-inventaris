@@ -17,7 +17,7 @@ Route::post('register', function(Request $request) {
         'password' => \Illuminate\Support\Facades\Hash::make($request->password),
     ]);
 
-    $token = $user->createToken('API Token')->plainTextToken;
+    $token = $user->createToken('API Token', ['*'], now()->addMinutes(1))->plainTextToken;
     return response()->json(['token' => $token]);
 });
 
@@ -29,7 +29,7 @@ Route::post('login', function(Request $request) {
 
     if (Auth::attempt($request->only('email', 'password'))) {
         $user = Auth::user();
-        $token = $user->createToken('API Token')->plainTextToken;
+        $token = $user->createToken('API Token', ['*'], now()->addMinutes(1))->plainTextToken;
         return response()->json([
             'token' => $token,
             'user' => $user
