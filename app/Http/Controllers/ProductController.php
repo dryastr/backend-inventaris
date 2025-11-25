@@ -20,6 +20,14 @@ class ProductController extends Controller
                   ->orWhere('sku', 'like', "%{$search}%");
         }
 
+        if ($request->has('sort_by') && !empty($request->sort_by)) {
+            $sortBy = $request->sort_by;
+            $sortOrder = $request->sort_order === 'desc' ? 'desc' : 'asc';
+            $query->orderBy($sortBy, $sortOrder);
+        } else {
+            $query->orderBy('created_at', 'desc');
+        }
+
         return $query->paginate(10);
     }
 
